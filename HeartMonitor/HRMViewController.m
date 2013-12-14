@@ -75,4 +75,31 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
 
 }
 
+# pragma mark - CBCharacteristic helpers
+
+// Heart rate BPM info
+- (void)getHeartBPMData:(CBCharacteristic *)characteristic
+                      error:(NSError *)error
+{
+
+}
+
+// manufacturer of device
+- (void)getManufacturerName:(CBCharacteristic *)characteristic
+{
+
+}
+
+// body location
+- (void)getBodyLocation:(CBCharacteristic *)characteristic
+{
+
+}
+
+// perform heart beat animation
+- (void)doHeartBeat
+{
+
+}
+
 @end
