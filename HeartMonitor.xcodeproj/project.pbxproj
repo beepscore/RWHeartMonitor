@@ -465,6 +465,7 @@
 				35AFF6B3185B691D00F1A64F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		35AFF6B4185B691D00F1A64F /* Build configuration list for PBXNativeTarget "HeartMonitorTests" */ = {
 			isa = XCConfigurationList;
@@ -473,6 +474,7 @@
 				35AFF6B6185B691D00F1A64F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
