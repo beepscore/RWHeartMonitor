@@ -198,9 +198,36 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
 
 // Heart rate BPM info
 - (void)getHeartBPMData:(CBCharacteristic *)characteristic
-                      error:(NSError *)error
+                  error:(NSError *)error
 {
+    NSData *data = [characteristic value];
+    const uint8_t *reportData = [data bytes];
+    uint16_t bpm = 0;
 
+    // Retrieve the BPM value for the Heart Rate Monitor
+    // check reportData first byte, first bit. (Mask all but first bit.)
+    if ((reportData[0] & 0x01) == 0) {
+        // set bpm to reportData to second byte
+        bpm = reportData[1];
+    }
+    else {
+        // CFSwapInt16LittleToHost converts little endian to native, may swap bytes
+        bpm = CFSwapInt16LittleToHost(*(uint16_t *)(&reportData[1]));
+    }
+    // Display the heart rate value to the UI if no error occurred
+    if( (characteristic.value)  || !error ) {
+        self.heartRate = bpm;
+        self.heartRateBPM.text = [NSString stringWithFormat:@"%i bpm", bpm];
+        self.heartRateBPM.font = [UIFont fontWithName:@"Futura-CondensedMedium" size:28];
+        [self doHeartBeat];
+
+        self.pulseTimer = [NSTimer scheduledTimerWithTimeInterval:(60. / self.heartRate)
+                                                           target:self
+                                                         selector:@selector(doHeartBeat)
+                                                         userInfo:nil
+                                                          repeats:NO];
+    }
+    return;
 }
 
 // manufacturer of device
