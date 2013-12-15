@@ -134,7 +134,36 @@
 didDiscoverCharacteristicsForService:(CBService *)service
              error:(NSError *)error
 {
+    if ([service.UUID isEqual:[CBUUID UUIDWithString:POLARH7_HRM_HEART_RATE_SERVICE_UUID]])  {
 
+        for (CBCharacteristic *aChar in service.characteristics)
+        {
+            // Request heart rate notifications
+            if ([aChar.UUID isEqual:[CBUUID UUIDWithString:POLARH7_HRM_MEASUREMENT_CHARACTERISTIC_UUID]]) {
+                // subscribe for callback peripheral:didUpdateNotificationStateForCharacteristic:error:
+                [self.polarH7HRMPeripheral setNotifyValue:YES forCharacteristic:aChar];
+                NSLog(@"Found heart rate measurement characteristic");
+            }
+            // Request body sensor location
+            else if ([aChar.UUID isEqual:[CBUUID UUIDWithString:POLARH7_HRM_BODY_LOCATION_CHARACTERISTIC_UUID]]) {
+                // body location doesn't change, so just read it once, don't subscribe
+                [self.polarH7HRMPeripheral readValueForCharacteristic:aChar];
+                NSLog(@"Found body sensor location characteristic");
+            }
+        }
+    }
+
+    // Retrieve Device Information Services for the Manufacturer Name
+    if ([service.UUID isEqual:[CBUUID UUIDWithString:POLARH7_HRM_DEVICE_INFO_SERVICE_UUID]])  {
+
+        for (CBCharacteristic *aChar in service.characteristics)
+        {
+            if ([aChar.UUID isEqual:[CBUUID UUIDWithString:POLARH7_HRM_MANUFACTURER_NAME_CHARACTERISTIC_UUID]]) {
+                [self.polarH7HRMPeripheral readValueForCharacteristic:aChar];
+                NSLog(@"Found a device manufacturer name characteristic");
+            }
+        }
+    }
 }
 
 // invoked when you retrieve a specified characteristic's value,
