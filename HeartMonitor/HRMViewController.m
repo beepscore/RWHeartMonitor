@@ -176,7 +176,22 @@ didDiscoverCharacteristicsForService:(CBService *)service
 didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
              error:(NSError *)error
 {
+    // Updated value for heart rate measurement received
+    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:POLARH7_HRM_MEASUREMENT_CHARACTERISTIC_UUID]]) { // 1
+        // Get the Heart Rate Monitor BPM
+        [self getHeartBPMData:characteristic error:error];
+    }
+    // Retrieve the characteristic value for manufacturer name received
+    if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:POLARH7_HRM_MANUFACTURER_NAME_CHARACTERISTIC_UUID]]) {  // 2
+        [self getManufacturerName:characteristic];
+    }
+    // Retrieve the characteristic value for the body sensor location received
+    else if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:POLARH7_HRM_BODY_LOCATION_CHARACTERISTIC_UUID]]) {  // 3
+        [self getBodyLocation:characteristic];
+    }
 
+    // Add your constructed device information to your UITextView
+    self.deviceInfo.text = [NSString stringWithFormat:@"%@\n%@\n%@\n", self.connected, self.bodyData, self.manufacturer];  // 4
 }
 
 # pragma mark - CBCharacteristic helpers
