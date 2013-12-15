@@ -89,7 +89,22 @@
 // method called whenever the device state changes
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
-
+    // Determine the state of the peripheral
+    if ([central state] == CBCentralManagerStatePoweredOff) {
+        NSLog(@"CoreBluetooth BLE hardware is powered off");
+    }
+    else if ([central state] == CBCentralManagerStatePoweredOn) {
+        NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
+    }
+    else if ([central state] == CBCentralManagerStateUnauthorized) {
+        NSLog(@"CoreBluetooth BLE state is unauthorized");
+    }
+    else if ([central state] == CBCentralManagerStateUnknown) {
+        NSLog(@"CoreBluetooth BLE state is unknown");
+    }
+    else if ([central state] == CBCentralManagerStateUnsupported) {
+        NSLog(@"CoreBluetooth BLE hardware is unsupported on this platform");
+    }
 }
 
 #pragma mark CBPeripheralDelegate
