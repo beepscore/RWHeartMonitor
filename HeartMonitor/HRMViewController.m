@@ -233,7 +233,10 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
 // manufacturer of device
 - (void)getManufacturerName:(CBCharacteristic *)characteristic
 {
-
+    NSString *manufacturerName = [[NSString alloc] initWithData:characteristic.value
+                                                       encoding:NSUTF8StringEncoding];
+    self.manufacturer = [NSString stringWithFormat:@"Manufacturer: %@", manufacturerName];
+    return;
 }
 
 // body location
