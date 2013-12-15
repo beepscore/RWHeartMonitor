@@ -123,7 +123,10 @@
 // Invoked when you discover the peripheral's available services.
 - (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
 {
-
+    for (CBService *service in peripheral.services) {
+        NSLog(@"Discovered service: %@", service.UUID);
+        [peripheral discoverCharacteristics:nil forService:service];
+    }
 }
 
 // invoked when you discover the characteristics of a specified service
