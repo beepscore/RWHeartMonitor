@@ -73,7 +73,11 @@
 // method called whenever you have successfully connected to the BLE peripheral
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
 {
-
+    [peripheral setDelegate:self];
+    [peripheral discoverServices:nil];
+    self.connected = [NSString stringWithFormat:@"Connected: %@",
+                      peripheral.state == CBPeripheralStateConnected ? @"YES" : @"NO"];
+    NSLog(@"%@", self.connected);
 }
 
 // CBCentralManagerDelegate - This is called with the CBPeripheral class as its main input parameter.
