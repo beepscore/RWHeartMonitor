@@ -18,6 +18,31 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+
+	self.polarH7DeviceData = nil;
+	[self.view setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+	[self.heartImage setImage:[UIImage imageNamed:@"HeartImage"]];
+
+	// Clear out textView
+	[self.deviceInfo setText:@""];
+	[self.deviceInfo setTextColor:[UIColor blueColor]];
+	[self.deviceInfo setBackgroundColor:[UIColor groupTableViewBackgroundColor]];
+	[self.deviceInfo setFont:[UIFont fontWithName:@"Futura-CondensedMedium" size:25]];
+	[self.deviceInfo setUserInteractionEnabled:NO];
+
+	// Create your Heart Rate BPM Label
+	self.heartRateBPM = [[UILabel alloc] initWithFrame:CGRectMake(55, 30, 75, 50)];
+	[self.heartRateBPM setTextColor:[UIColor whiteColor]];
+	[self.heartRateBPM setText:[NSString stringWithFormat:@"%i", 0]];
+	[self.heartRateBPM setFont:[UIFont fontWithName:@"Futura-CondensedMedium" size:28]];
+	[self.heartImage addSubview:self.heartRateBPM];
+
+	// Scan for all available CoreBluetooth LE devices
+	self.centralManager = [[CBCentralManager alloc] initWithDelegate:self
+                                                               queue:nil];
+	NSArray *services = @[[CBUUID UUIDWithString:POLARH7_HRM_HEART_RATE_SERVICE_UUID],
+                          [CBUUID UUIDWithString:POLARH7_HRM_DEVICE_INFO_SERVICE_UUID]];
+	[self.centralManager scanForPeripheralsWithServices:services options:nil];
 }
 
 - (void)didReceiveMemoryWarning
