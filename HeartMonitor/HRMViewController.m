@@ -242,7 +242,17 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
 // body location
 - (void)getBodyLocation:(CBCharacteristic *)characteristic
 {
-
+    NSData *sensorData = [characteristic value];
+    uint8_t *bodyData = (uint8_t *)[sensorData bytes];
+    if (bodyData) {
+        uint8_t bodyLocation = bodyData[0];
+        self.bodyData = [NSString stringWithFormat:@"Body Location: %@",
+                         bodyLocation == 1 ? @"Chest" : @"Undefined"];
+    }
+    else {
+        self.bodyData = [NSString stringWithFormat:@"Body Location: N/A"];
+    }
+    return;
 }
 
 // perform heart beat animation
