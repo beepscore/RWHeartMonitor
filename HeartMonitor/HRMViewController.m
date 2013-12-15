@@ -191,7 +191,8 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
     }
 
     // Add your constructed device information to your UITextView
-    self.deviceInfo.text = [NSString stringWithFormat:@"%@\n%@\n%@\n", self.connected, self.bodyData, self.manufacturer];
+    self.deviceInfo.text = [NSString stringWithFormat:@"%@\n%@\n%@\n",
+                            self.connected, self.bodyData, self.manufacturer];
 }
 
 # pragma mark - CBCharacteristic helpers
