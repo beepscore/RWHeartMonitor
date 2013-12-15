@@ -24,4 +24,30 @@
 @property (nonatomic, strong) CBCentralManager *centralManager;
 @property (nonatomic, strong) CBPeripheral *polarH7HRMPeripheral;
 
+@property (nonatomic, weak) IBOutlet UIImageView *heartImage;
+@property (nonatomic, weak) IBOutlet UITextView *deviceInfo;
+
+// data characteristics for peripheral device
+// TODO: Consider move these to a model object
+@property (nonatomic, strong) NSString *connected;
+@property (nonatomic, strong) NSString *bodyData;
+@property (nonatomic, strong) NSString *manufacturer;
+@property (nonatomic, strong) NSString *polarH7DeviceData;
+@property (assign) uint16_t heartRate;
+
+@property (nonatomic, strong) UILabel *heartRateBPM;
+@property (nonatomic, retain) NSTimer *pulseTimer;
+
+// Heart rate BPM info
+- (void)getHeartBPMData:(CBCharacteristic *)characteristic
+                  error:(NSError *)error;
+
+// manufacturer of device
+- (void)getManufacturerName:(CBCharacteristic *)characteristic;
+
+// body location
+- (void)getBodyLocation:(CBCharacteristic *)characteristic;
+
+// perform heart beat animation
+- (void)doHeartBeat;
 @end
