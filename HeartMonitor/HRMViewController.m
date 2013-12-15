@@ -140,7 +140,11 @@ didDiscoverCharacteristicsForService:(CBService *)service
         {
             // Request heart rate notifications
             if ([aChar.UUID isEqual:[CBUUID UUIDWithString:POLARH7_HRM_MEASUREMENT_CHARACTERISTIC_UUID]]) {
-                // subscribe for callback peripheral:didUpdateNotificationStateForCharacteristic:error:
+                // request peripheral start providing notifications
+                // peripheral calls delegate method
+                // peripheral:didUpdateNotificationStateForCharacteristic:error:
+                // if peripheral starts notifications, whenever value changes it calls
+                // peripheral:didUpdateValueForCharacteristic:error:
                 [self.polarH7HRMPeripheral setNotifyValue:YES forCharacteristic:aChar];
                 NSLog(@"Found heart rate measurement characteristic");
             }
