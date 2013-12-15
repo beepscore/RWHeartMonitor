@@ -83,7 +83,14 @@
      advertisementData:(NSDictionary *)advertisementData
                   RSSI:(NSNumber *)RSSI
 {
-
+    NSString *localName = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
+    if ([localName length] > 0) {
+        NSLog(@"Found the heart rate monitor: %@", localName);
+        [self.centralManager stopScan];
+        self.polarH7HRMPeripheral = peripheral;
+        peripheral.delegate = self;
+        [self.centralManager connectPeripheral:peripheral options:nil];
+    }
 }
 
 // method called whenever the device state changes
