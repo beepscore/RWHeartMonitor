@@ -259,7 +259,22 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
 // perform heart beat animation
 - (void)doHeartBeat
 {
-
+    CALayer *layer = [self heartImage].layer;
+    CABasicAnimation *pulseAnimation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    pulseAnimation.toValue = [NSNumber numberWithFloat:1.1];
+    pulseAnimation.fromValue = [NSNumber numberWithFloat:1.0];
+    
+    pulseAnimation.duration = 60. / self.heartRate / 2.;
+    pulseAnimation.repeatCount = 1;
+    pulseAnimation.autoreverses = YES;
+    pulseAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn];
+    [layer addAnimation:pulseAnimation forKey:@"scale"];
+    
+    self.pulseTimer = [NSTimer scheduledTimerWithTimeInterval:(60. / self.heartRate)
+                                                       target:self
+                                                     selector:@selector(doHeartBeat)
+                                                     userInfo:nil
+                                                      repeats:NO];
 }
 
 @end
