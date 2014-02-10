@@ -206,9 +206,9 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
     uint16_t bpm = 0;
 
     // Retrieve the BPM value for the Heart Rate Monitor
-    // check reportData first byte, first bit. (Mask all but first bit.)
+    // check reportData byte zero, bit zero. (Mask all but bit zero.)
     if ((reportData[0] & 0x01) == 0) {
-        // set bpm to reportData to second byte
+        // set bpm to reportData byte one
         bpm = reportData[1];
     }
     else {
