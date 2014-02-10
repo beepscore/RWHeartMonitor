@@ -216,7 +216,10 @@ didUpdateValueForCharacteristic:(CBCharacteristic *)characteristic
         bpm = CFSwapInt16LittleToHost(*(uint16_t *)(&reportData[1]));
     }
     // Display the heart rate value to the UI if no error occurred
-    if( (characteristic.value)  || !error ) {
+    // tutorial had ||, I changed to &&
+    // Using LightBlue app to simulate a Polar heart rate monitor, the app worked either way.
+    // if( (characteristic.value) || !error ) {
+    if( (characteristic.value) && !error ) {
         self.heartRate = bpm;
         self.heartRateBPM.text = [NSString stringWithFormat:@"%i bpm", bpm];
         self.heartRateBPM.font = [UIFont fontWithName:@"Futura-CondensedMedium" size:28];
