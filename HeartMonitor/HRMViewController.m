@@ -84,7 +84,8 @@
                   RSSI:(NSNumber *)RSSI
 {
     NSString *localName = [advertisementData objectForKey:CBAdvertisementDataLocalNameKey];
-    if ([localName length] > 0) {
+    if ([localName length] > 0
+        && [localName isEqualToString:@"TICKR X 4F9D"]) {
         NSLog(@"Found the heart rate monitor: %@", localName);
         [self.centralManager stopScan];
         self.polarH7HRMPeripheral = peripheral;
