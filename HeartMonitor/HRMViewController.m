@@ -54,12 +54,8 @@
 	[self.heartRateBPM setFont:[UIFont fontWithName:@"Futura-CondensedMedium" size:28]];
 	[self.heartImage addSubview:self.heartRateBPM];
 
-	// Scan for all available CoreBluetooth LE devices
 	self.centralManager = [[CBCentralManager alloc] initWithDelegate:self
                                                                queue:nil];
-	NSArray *services = @[[CBUUID UUIDWithString:POLARH7_HRM_HEART_RATE_SERVICE_UUID],
-                          [CBUUID UUIDWithString:POLARH7_HRM_DEVICE_INFO_SERVICE_UUID]];
-	[self.centralManager scanForPeripheralsWithServices:services options:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -106,6 +102,10 @@
     }
     else if ([central state] == CBCentralManagerStatePoweredOn) {
         NSLog(@"CoreBluetooth BLE hardware is powered on and ready");
+        // Scan for all available CoreBluetooth LE devices
+        NSArray *services = @[[CBUUID UUIDWithString:POLARH7_HRM_HEART_RATE_SERVICE_UUID],
+                              [CBUUID UUIDWithString:POLARH7_HRM_DEVICE_INFO_SERVICE_UUID]];
+        [self.centralManager scanForPeripheralsWithServices:services options:nil];
     }
     else if ([central state] == CBCentralManagerStateUnauthorized) {
         NSLog(@"CoreBluetooth BLE state is unauthorized");
